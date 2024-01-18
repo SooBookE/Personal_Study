@@ -62,6 +62,8 @@ chk = [[False]*m for _ in range(n)]
 
 """
 변수 chk의 출력값이 어떻게 되는 거지?
+지금 예상 결과물은 [[False, False, ... , False(idx == m-1)] ... [False, False, ... , False(idx == m-1)](idx == n-1)]
+이어야 말이 되는데, "[False] * m" 이 부분이 저렇게 입력된다는 건가??
 각각의 변수를 print()로 출력해봐야 정확한 이해가 가능할 듯...
 """
 
@@ -86,6 +88,16 @@ def bfs(y, x):
                     queue.append((ny, nx))
 
     return result
+
+"""
+아! BFS를 한 포인트를 찍었을 때 사용하고,
+그 주변을 탐색하면서 얻은 값을 Queue에 넣으면서 조건에 부합하면
+Queue에 또 넣는구나...
+그러면 알고리즘 따로, 검사 따로라고 할 수는 없겠네.
+Queue를 전역으로 선언할 수도 있겠지만, 그러면 Thread를 쓰지 않는 이상, Queue에 모든 정보를 다 넣을 때까지
+Queue를 분석할 수가 없겠구나!
+"""
+
 
 cnt = 0 # 그림 개수
 max_v = 0 # 그림 최대 크기
