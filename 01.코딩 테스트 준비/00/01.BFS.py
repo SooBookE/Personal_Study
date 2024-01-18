@@ -1,4 +1,7 @@
 """
+※ Reference from 유튜브 "개발자 장고"(https://www.youtube.com/@developer_jango)
+
+
 문제 링크 : https://www.acmicpc.net/problem/1926 ( 문제명 : 그림 )
 
 1. 아이디어
