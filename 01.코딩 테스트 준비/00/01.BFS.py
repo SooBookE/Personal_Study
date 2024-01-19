@@ -84,7 +84,7 @@ def bfs(y, x):
             if 0<=ny<n and 0<=nx<m:
                 if map[ny][nx] == 1 and chk[ny][nx] == False:
                     result += 1
-                    chk[ny][nx] == True
+                    chk[ny][nx] = True
                     queue.append((ny, nx))
 
     return result

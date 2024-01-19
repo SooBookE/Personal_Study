@@ -28,17 +28,26 @@ N = int(input())
 household_map = [list(map(int, input().strip())) for _ in range(N)]
 check = [[False] * N for _ in range(N)]
 
+# 단지 내의 집의 개수들을 담을 list 변수.
 result = []
+# 단지 내의 집의 개수를 담을 int형 변수.
 each = 0
-
 
 dy = [0, 1, 0, -1]
 dx = [1, 0, -1, 0]
 def dfs(y, x):
+    # 함수 안에서 전역 변수를 사용하기 위해 global 키워드 사용.
+    global each
+    each += 1
+
     for k in range(4):
         ny = y + dy[k]
         nx = x + dx[k]
-        # =================================================================== 여기 이후로 작성!!
+        
+        if 0<=ny<N and 0<=nx<N:
+            if household_map[ny][nx] == 1 and check[ny][nx] == False:
+                check[ny][nx] = True
+                dfs(ny, nx)
 
 
 for j in range(N):

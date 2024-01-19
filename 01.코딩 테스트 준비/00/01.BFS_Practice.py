@@ -1,14 +1,17 @@
 """
-[[ 문제 ]]
-
-그림
+[[ 그림 ]]
 시간 제한   메모리 제한     제출	    정답	    맞힌 사람	정답 비율
 2 초        128 MB	        37993	    16507	    11451	    42.085%
 문제
-어떤 큰 도화지에 그림이 그려져 있을 때, 그 그림의 개수와, 그 그림 중 넓이가 가장 넓은 것의 넓이를 출력하여라. 단, 그림이라는 것은 1로 연결된 것을 한 그림이라고 정의하자. 가로나 세로로 연결된 것은 연결이 된 것이고 대각선으로 연결이 된 것은 떨어진 그림이다. 그림의 넓이란 그림에 포함된 1의 개수이다.
+어떤 큰 도화지에 그림이 그려져 있을 때, 그 그림의 개수와, 그 그림 중 넓이가 가장 넓은 것의 넓이를 출력하여라.
+단, 그림이라는 것은 1로 연결된 것을 한 그림이라고 정의하자. 
+가로나 세로로 연결된 것은 연결이 된 것이고 대각선으로 연결이 된 것은 떨어진 그림이다.
+그림의 넓이란 그림에 포함된 1의 개수이다.
 
 입력
-첫째 줄에 도화지의 세로 크기 n(1 ≤ n ≤ 500)과 가로 크기 m(1 ≤ m ≤ 500)이 차례로 주어진다. 두 번째 줄부터 n+1 줄 까지 그림의 정보가 주어진다. (단 그림의 정보는 0과 1이 공백을 두고 주어지며, 0은 색칠이 안된 부분, 1은 색칠이 된 부분을 의미한다)
+첫째 줄에 도화지의 세로 크기 n(1 ≤ n ≤ 500)과 가로 크기 m(1 ≤ m ≤ 500)이 차례로 주어진다.
+두 번째 줄부터 n+1 줄 까지 그림의 정보가 주어진다.
+(단 그림의 정보는 0과 1이 공백을 두고 주어지며, 0은 색칠이 안된 부분, 1은 색칠이 된 부분을 의미한다)
 
 출력
 첫째 줄에는 그림의 개수, 둘째 줄에는 그 중 가장 넓은 그림의 넓이를 출력하여라. 단, 그림이 하나도 없는 경우에는 가장 넓은 그림의 넓이는 0이다.
@@ -85,11 +88,21 @@ def bfs(i, j):
 
             # 오답2 : temp_y, temp_x 좌표가 picture의 범위 내인지 확인 안 함!!!
             #         → "예외 처리"를 안 해줬다는 말!
+            """20240119 수정"""
+            #if 0 <= temp_y < n and 0 <= temp_x < m:
+            #    if check[temp_y][temp_x] == False and picture[temp_y][temp_x] == 1:
+            #        check[temp_y][temp_x] = True
+            #        temp_size += 1
+            #        queue.append((temp_x, temp_y))
             if 0 <= temp_y < n and 0 <= temp_x < m:
-                if check[temp_y][temp_x] == False and picture[temp_y][temp_x] == 1:
+                if check[temp_y][temp_x] == False:
                     check[temp_y][temp_x] = True
-                    temp_size += 1
-                    queue.append((temp_x, temp_y))
+                    if picture[temp_y][temp_x] == 1:
+                        temp_size += 1
+
+                        # 오다아아아아압!!!!
+                        #queue.append((temp_x, temp_y))
+                        queue.append((temp_y, temp_x))
 
     return temp_size
 
@@ -103,12 +116,34 @@ def bfs(i, j):
 
 max_size = ea = 0
 
+"""20240119 수정"""
+#for i in range(n):
+#    for j in range(m):
+#        if picture[i][j] == 1 and check[i][j] == False:
+#            check[i][j] = True
+#            ea += 1
+#            max_size = max(max_size, bfs(i, j))
 for i in range(n):
     for j in range(m):
-        if picture[i][j] == 1 and check[i][j] == False:
+        if check[i][j] == False:
             check[i][j] = True
-            ea += 1
-            max_size = max(max_size, bfs(i, j))
+            if picture[i][j] == 1:
+                ea += 1
+                max_size = max(max_size, bfs(i, j))
 
 print(ea)
 print(max_size)
+
+"""
+20240119 추가:
+
+그런데 생각해보니 전제가 잘못되지 않았나?
+우선 방문 여부 False를 확인하고,
+True로 무조건 바꿔 준 다음에 해당 좌표가 1인지 0인지 판단해야 하는 것 아닌가?
+이러면 방문했지만 1이 아니라서 True로 바꾸지 않은 좌표들이 생길 것 같은데...?
+"""
+
+
+# 이거 백준에 제출하면 왜 자꾸 틀렸다고 나오지...
+# Reference Code 복사해서, 내 생각대로 if ~~~ and ~~~~ 조건 분리해서 제출하니까 맞다고 뜨긴 한다.
+# 여기 코드에서 뭔가 잘못 작성한 듯!!!
