@@ -33,7 +33,7 @@ chk = [False] * (N+1)
 # 하기부터는 백트래킹의 기본 문제 패턴.
 def recur(num):
     if num == M:
-        print('\t'.join(map(str, rs)))
+        print(' '.join(map(str, rs)))
         return
     for i in range(1, N+1):
         if chk[i] == False:

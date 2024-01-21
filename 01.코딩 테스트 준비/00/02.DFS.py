@@ -1,4 +1,6 @@
 """
+※ Reference from 유튜브 "개발자 장고"(https://www.youtube.com/@developer_jango)
+
 1. 아이디어
     2중 for문을 수행하며, 값이 1 && 방문하지 않은 좌표에서 DFS( 재귀 함수 ) 수행.
     총 단지수를 갱신하고, 각 단지 내의 집의 개수를 List에 저장.
