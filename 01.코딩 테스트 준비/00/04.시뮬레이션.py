@@ -92,6 +92,72 @@ while 1:   # 특정 조건 만족 시까지 무한 반복.
 
                 # 다음 공부 시에
                 # C++과 Python 각각에서 배열의 정방향 순회와 역방향 순회 구현하기 위한 계산 방식 고려해보기!!!
+                # → 20240121
+                """
+                20240125
+
+                arr = [0, 1, 2, 3];
+                arr_len = 4;
+                이고, 1씩 증감 할 때
+
+                [정방향 순회]
+                C++ :
+                    int arr[] = {0, 1, 2, 3};
+                    int arr_len = sizeof(arr)/sizeof(int);
+                    
+                    for(int i=0, idx=0; i<8 ; i++){
+                        idx = i % arr_len;                                                                          # idx 조작 방식.
+                        printf("%d\n", arr[idx]);
+                    }
+
+                Python : 
+                    arr = [0, 1, 2, 3]
+                    arr_len = len(arr)
+                    idx = 0
+                    loop_len = 8
+
+                    for i in range(loop_len):
+                        idx = i % arr_len                                                                           # idx 조작 방식.
+                        print(arr[idx])
+
+                [역방향 순회]
+                C++ : 
+                    int arr[] = {0, 1, 2, 3};
+                    int arr_len = sizeof(arr)/sizeof(int);
+                    
+                    int reverse_idx = 0;
+                    
+                    // -1이 3이 되도록 조작해야 함. == +4의 배수 하고 %4
+                    // 웬만하면 Stable하도록 순회하는 만큼의 수만 곱하던지 고정된 값과 곱하는게 좋을 듯.
+                    // → 예를 들어, 여기서는 8
+                    for(int i=0, idx=0; i<8; i++, reverse_idx--){
+                        // 이렇게 하면 (arr_len * i)가 기하급수적으로 늘어나니까.
+                        //idx = (reverse_idx + (arr_len * i)) % arr_len;
+                        idx = (reverse_idx + (arr_len * 8/* for문 순회값 */)) % arr_len;                             # idx 조작 방식.
+                        printf("%d\n", arr[idx]);
+                    }
+
+                Python : 
+                    arr = [0, 1, 2, 3]
+                    arr_len = len(arr)
+                    loop_len = 8
+                    reverse_idx = 0
+                    idx = 0
+
+                    for i in range(loop_len):
+                        reverse_idx -= 1
+                        idx = (reverse_idx + (arr_len * loop_len)) % arr_len                                        # idx 조작 방식.
+                        print(arr[idx])
+
+
+
+                ※ 정방향 순회든, 역방향 순회든, C++이든, Python이든
+
+                    Index = (순회하는 값 + 배열 크기의 배수) % 배열 크기                 단, (순회하는 값 + 배열 크기의 배수)의 합은 양수
+
+                    를 사용하면 의도대로 배열을 순회할 수 있다는 결론 도출.
+                """
+
 
                 """
                 ※ 참고 : C와 파이썬에서 음수가 포함된 나누기/나머지 연산 방식은 상이하다.
