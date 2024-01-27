@@ -101,28 +101,54 @@ N, M = map(int, input().split())                            # 전체 방 크기.
 r, c, d = map(int, input().split())                         # 청소기의 초기 좌표(r, c), 청소기의 초기 방향(d)
 
 room = [list(map(int, input().split())) for _ in range(N)]  # 방의 정보
-cnt = 0                                                     # 청소한 칸의 수
+cnt = 1                                                     # 청소한 칸의 수. 로봇의 초기 위치를 청소한 상태로 생각.
 
 # [북, 동, 남, 서]
 dy = [-1, 0, 1, 0]                                          # y좌표
 dx = [0, 1, 0, -1]                                          # x좌표
-loop_num = len(dy)
+loop_num = len(dy)                                          # 탐색할 방향 (== 4방)
 
-while(1):
-    # 청소했다면 청소한 칸 +1
-    cnt += 1
+sweap = True                                                # 청소 여부 확인.
 
+while 1:
+    if sweap == True:
+        sweap = False
+    else:
+        backward = ((d-2) + loop_num*loop_num ) % loop_num
+        back_y = r + dy[backward]
+        back_x = c + dx[backward]
+
+        if room[back_y][back_x] == 1:
+            break
+        else:
+            r = back_y
+            c = back_x
     # 현재 위치에서 4방 탐색
     for _ in range(loop_num):
-        # 청소기가 바라보는 방향 d를 먼저 탐색
-        temp_y = r + dy[d]
-        temp_x = c + dx[d]
+        # 청소기가 바라보는 방향 좌측을 먼저 탐색
+        temp_y = r + dy[d-1]
+        temp_x = c + dx[d-1]
         # 탐색한 방향 칸이 방 전체 범위 내인지 확인
-        if 0<=temp_y<=N and 0<=temp_x<=M:
-            # 탐색한 방향 칸이 벽이거나 청소한 곳이면 청소기 방향을 반시계로 90도 회전 후 다시 탐색
+        #if 0<=temp_y<=N and 0<=temp_x<=M:      # 오답... 범위 오류
+        if 0<=temp_y<N and 0<=temp_x<M:
+            # 탐색한 방향 칸이 벽이거나 청소한 곳이면 청소기 방향을 반시계로 90도 회전 후 다음 탐색
+            # 사실 이 예제에서는 방향이 한 칸씩만 줄어들며 바뀌므로, 아래의 식을 써도 무방할 듯
+            # d = (d-1 + loop_num) % loop_num
+            d = ((d-1) + loop_num * loop_num) % loop_num
             if room[temp_y][temp_x] == 1 or room[temp_y][temp_x] == 2:
-                d = ((d-1) + loop_num * loop_num) % loop_num
                 continue
-            # 탐색한 방향 칸이 청소하지 않은 곳이면 
+            # 탐색한 방향 칸이 청소하지 않은 곳이면
+            # 바라보는 방향으로 이동 후 청소
+            room[temp_y][temp_x] = 2        # 오답! 청소한 곳 표시 구문 누락!!!
             r = temp_y
             c = temp_x
+            cnt += 1
+            sweap = True
+            break
+
+print(cnt)
+
+"""
+오답 덩어리!! 해당 코드는 실패!
+너무 코드가 복잡해져서 다시 만들어서 확인해봐야겠다!
+"""
